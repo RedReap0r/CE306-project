@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>เข้าสู่ระบบ – ComTrade</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body>
+    <div class="login-page">
+      <section class="login-art">
+        <div>
+          <h1>ComTrade</h1>
+          <p>คอมเทรด - ตลาดซื้อขายคอมพิวเตอร์มือสองที่เชื่อถือได้</p>
+        </div>
+
+        <svg
+          viewBox="0 0 400 400"
+          fill="none"
+          stroke="#3b82c4"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path
+            d="M200 40 L340 120 V280 L200 360 L60 280 V120Z"
+            stroke="#9fd0f2"
+            stroke-width="4"
+          />
+          <rect x="165" y="55" width="70" height="46" rx="3" fill="#cfe8fb" />
+          <path d="M155 108 H245" stroke-width="4" />
+          <rect x="60" y="150" width="30" height="55" rx="3" fill="#a9d4f5" />
+          <rect x="100" y="150" width="70" height="48" rx="3" fill="#cfe8fb" />
+          <path d="M135 198 V212 M118 212 H152" />
+          <rect
+            x="300"
+            y="130"
+            width="34"
+            height="62"
+            rx="5"
+            fill="#cfe8fb"
+            transform="rotate(25 317 161)"
+          />
+          <rect x="270" y="270" width="70" height="46" rx="3" fill="#cfe8fb" />
+          <path d="M260 323 H350" stroke-width="4" />
+          <rect
+            x="70"
+            y="260"
+            width="34"
+            height="62"
+            rx="5"
+            fill="#cfe8fb"
+            transform="rotate(-25 87 291)"
+          />
+          <rect x="183" y="300" width="34" height="62" rx="5" fill="#cfe8fb" />
+          <path
+            d="M200 160 L232 178 V214 L200 232 L168 214 V178Z"
+            fill="#a9d4f5"
+          />
+        </svg>
+
+        <p class="art-note">
+          ค้นหา PC มือสอง คอมพิวเตอร์โน้ตบุ๊ก และอุปกรณ์ไอทีที่คุณต้องการ
+        </p>
+      </section>
+
+      <section class="login-panel">
+        <a class="brand" href="index.html"
+          ><span class="brand-icon"></span>ComTrade</a
+        >
+        <h2 id="title">เข้าสู่ระบบ</h2>
+        <p class="lead" id="lead">
+          ยินดีต้อนรับกลับมา - ลงชื่อเข้าใช้เพื่อซื้อขายคอมพิวเตอร์มือสอง
+        </p>
+
+        <div class="login-card">
+          <label
+            >อีเมล<input
+              type="email"
+              id="email"
+              placeholder="name@example.com"
+              autocomplete="email"
+          /></label>
+          <label
+            >รหัสผ่าน<input
+              type="password"
+              id="pass"
+              placeholder="••••••••"
+              autocomplete="current-password"
+          /></label>
+          <div class="between">
+            <label class="check"
+              ><input type="checkbox" id="remember" checked /> จดจำฉัน</label
+            >
+            <a href="#" id="forgot">ลืมรหัสผ่าน?</a>
+          </div>
+          <p class="err" id="err"></p>
+          <button class="go" id="go">เข้าสู่ระบบ</button>
+          <div class="or"><span>หรือ</span></div>
+          <button class="google" id="google">เข้าสู่ระบบด้วย Google</button>
+          <p class="swap">
+            <span id="swapText">ยังไม่มีบัญชี?</span>
+            <a href="#" id="swap">สมัครสมาชิก</a>
+          </p>
+        </div>
+      </section>
+    </div>
+    <script src="js/login.js"></script>
+  </body>
+</html>

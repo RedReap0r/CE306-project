@@ -304,10 +304,10 @@ function openAuth(mode) {
   if (!$("authDialog").open) $("authDialog").showModal();
 }
 $("loginBtn").onclick = function () {
-  openAuth("login");
+  location.href = "login.html";
 };
 $("signupBtn").onclick = function () {
-  openAuth("register");
+  location.href = "login.html#register";
 };
 $("authSwap").onclick = function () {
   openAuth(authMode === "login" ? "register" : "login");
