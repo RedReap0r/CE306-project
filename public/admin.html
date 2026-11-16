@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ComTrade Admin</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <span class="logo">ComTrade Admin</span>
+      <nav><a href="/">กลับหน้าร้าน</a></nav>
+    </header>
+    <main>
+      <p id="msg" class="sub"></p>
+      <h2>จัดการสินค้า</h2>
+      <div class="adminform">
+        <label
+          >ชื่อสินค้า<input id="f_name" placeholder="เช่น MacBook Pro 14"
+        /></label>
+        <label
+          >ประเภท
+          <select id="f_cat">
+            <option value="">เลือกประเภท</option>
+            <option>โน้ตบุ๊ก</option>
+            <option>เดสก์ท็อป</option>
+            <option>จอมอนิเตอร์</option>
+            <option>การ์ดจอ</option>
+          </select>
+        </label>
+        <label
+          >RAM
+          <select id="f_ram">
+            <option value="0">ไม่มี (จอ/การ์ดจอ)</option>
+            <option value="4">4 GB</option>
+            <option value="8">8 GB</option>
+            <option value="16">16 GB</option>
+            <option value="32">32 GB</option>
+            <option value="64">64 GB</option>
+          </select>
+        </label>
+        <label
+          >การ์ดจอ
+          <select id="f_gpu">
+            <option value="">เลือกการ์ดจอ</option>
+            <option>RTX</option>
+            <option>GTX</option>
+            <option>Radeon</option>
+            <option>Integrated</option>
+          </select>
+        </label>
+        <label
+          >สภาพเครื่อง (%)<input
+            id="f_cond"
+            type="number"
+            min="0"
+            max="100"
+            placeholder="เช่น 90"
+        /></label>
+        <label
+          >ราคา (บาท)<input
+            id="f_price"
+            type="number"
+            min="1"
+            placeholder="เช่น 15900"
+        /></label>
+        <label
+          >สเปกเพิ่มเติม<input id="f_spec" placeholder="เช่น SSD 512GB"
+        /></label>
+        <label
+          >รูปสินค้า<input id="f_file" type="file" accept="image/*"
+        /></label>
+        <button class="btn" id="save">เพิ่มสินค้า</button>
+        <button class="btn ghost" id="clear">ล้างฟอร์ม</button>
+      </div>
+      <div style="overflow-x: auto"><table id="pt"></table></div>
+      <h2>คำสั่งซื้อ</h2>
+      <div style="overflow-x: auto"><table id="ot"></table></div>
+    </main>
+    <script>
+      var T = localStorage.getItem("token"),
+        E = null,
+        F = ["name", "cat", "ram", "gpu", "cond", "price", "spec"],
+        ST = ["รอชำระเงิน", "ชำระแล้ว", "จัดส่งแล้ว", "ยกเลิก"],
+        P = {};
+      function $(i) {
+        return document.getElementById(i);
+      }
+      function esc(s) {
+        return String(s).replace(/[&<>"]/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+        });
+      }
+      function call(m, u, b) {
+        return fetch(u, {
+          method: m,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + T,
+          },
+          body: b ? JSON.stringify(b) : undefined,
+        }).then(function (r) {
+          if (r.status == 204) return {};
+          return r.json().then(function (d) {
+            if (!r.ok) throw new Error(d.error);
+            return d;
+          });
+        });
+      }
+      function load() {
+        call("GET", "/api/orders")
+          .then(function (o) {
+            $("msg").textContent = "";
+            $("ot").innerHTML =
+              "<tr><th>#</th><th>ลูกค้า</th><th>ยอดรวม</th><th>สถานะ</th></tr>" +
+              o
+                .map(function (x) {
+                  return (
+                    "<tr><td>" +
+                    x.id +
+                    "</td><td>" +
+                    esc(x.email) +
+                    "</td><td>฿" +
+                    x.total.toLocaleString("th-TH") +
+                    "</td><td><select data-st='" +
+                    x.id +
+                    "'>" +
+                    ST.map(function (s) {
+                      return (
+                        "<option" +
+                        (s == x.status ? " selected" : "") +
+                        ">" +
+                        s +
+                        "</option>"
+                      );
+                    }).join("") +
+                    "</select></td></tr>"
+                  );
+                })
+                .join("");
+            return call("GET", "/api/products");
+          })
+          .then(function (l) {
+            P = {};
+            l.forEach(function (x) {
+              P[x.id] = x;
+            });
+            $("pt").innerHTML =
+              "<tr><th>ชื่อ</th><th>ประเภท</th><th>RAM</th><th>สภาพ</th><th>ราคา</th><th></th></tr>" +
+              l
+                .map(function (x) {
+                  return (
+                    "<tr><td>" +
+                    esc(x.name) +
+                    "</td><td>" +
+                    esc(x.cat) +
+                    "</td><td>" +
+                    x.ram +
+                    "</td><td>" +
+                    x.cond +
+                    "%</td><td>฿" +
+                    x.price.toLocaleString("th-TH") +
+                    "</td><td><button class='btn ghost' data-ed='" +
+                    x.id +
+                    "'>แก้ไข</button> <button class='btn ghost' data-del='" +
+                    x.id +
+                    "'>ลบ</button></td></tr>"
+                  );
+                })
+                .join("");
+          })
+          .catch(function (e) {
+            $("msg").textContent =
+              "เข้าถึงไม่ได้: " +
+              e.message +
+              " (ต้องเข้าสู่ระบบด้วยบัญชี Admin จากหน้าร้านก่อน)";
+          });
+      }
+      function clearForm() {
+        E = null;
+        $("f_file").value = "";
+        F.forEach(function (k) {
+          $("f_" + k).value = "";
+        });
+        $("save").textContent = "เพิ่มสินค้า";
+      }
+      $("clear").onclick = clearForm;
+      $("save").onclick = function () {
+        var b = {};
+        F.forEach(function (k) {
+          b[k] = $("f_" + k).value;
+        });
+        b.img = E && P[E] ? P[E].img || "" : "";
+        var f = $("f_file").files[0],
+          up = Promise.resolve(null);
+        if (f) {
+          var fd = new FormData();
+          fd.append("image", f);
+          up = fetch("/api/upload", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + T },
+            body: fd,
+          }).then(function (r) {
+            return r.json().then(function (d) {
+              if (!r.ok) throw new Error(d.error);
+              return d.url;
+            });
+          });
+        }
+        up.then(function (u) {
+          if (u) b.img = u;
+          return call(
+            E ? "PUT" : "POST",
+            E ? "/api/products/" + E : "/api/products",
+            b,
+          );
+        })
+          .then(function () {
+            clearForm();
+            load();
+          })
+          .catch(function (e) {
+            alert(e.message);
+          });
+      };
+      document.addEventListener("click", function (e) {
+        var ed = e.target.getAttribute("data-ed"),
+          del = e.target.getAttribute("data-del");
+        if (ed) {
+          E = ed;
+          F.forEach(function (k) {
+            $("f_" + k).value = P[ed][k];
+          });
+          $("save").textContent = "บันทึกการแก้ไข";
+        }
+        if (del && confirm("ลบสินค้านี้?"))
+          call("DELETE", "/api/products/" + del)
+            .then(load)
+            .catch(function (x) {
+              alert(x.message);
+            });
+      });
+      document.addEventListener("change", function (e) {
+        var id = e.target.getAttribute("data-st");
+        if (id)
+          call("PATCH", "/api/orders/" + id + "/status", {
+            status: e.target.value,
+          }).catch(function (x) {
+            alert(x.message);
+          });
+      });
+      load();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>รายละเอียดสินค้า – ComTrade</title>
+    <link rel="icon" href="images/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="index.html"
+        ><img src="images/logo.png" alt="ComTrade"
+      /></a>
+      <nav></nav>
+      <a class="btn ghost" href="index.html#shop">กลับไปเลือกสินค้า</a>
+    </header>
+    <main><div class="pd" id="box">กำลังโหลด...</div></main>
+    <script>
+      var $ = function (i) {
+        return document.getElementById(i);
+      };
+      function esc(s) {
+        return String(s).replace(/[&<>"]/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+        });
+      }
+      fetch(
+        "/api/products/" +
+          encodeURIComponent(new URLSearchParams(location.search).get("id")),
+      )
+        .then(function (r) {
+          return r.json().then(function (d) {
+            if (!r.ok) throw new Error(d.error);
+            return d;
+          });
+        })
+        .then(function (x) {
+          document.title = x.name + " – ComTrade";
+          $("box").innerHTML =
+            '<div class="pd-img">' +
+            (x.img
+              ? '<img src="' + esc(x.img) + '" alt="' + esc(x.name) + '">'
+              : esc(x.cat || "")) +
+            "</div><div>" +
+            '<span class="tag">สภาพ ' +
+            x.cond +
+            "%</span><h1>" +
+            esc(x.name) +
+            '</h1><p class="price" style="font-size:28px;margin:0 0 16px">฿' +
+            x.price.toLocaleString("th-TH") +
+            "</p>" +
+            "<table><tr><td>ประเภท</td><td>" +
+            esc(x.cat || "-") +
+            "</td></tr><tr><td>RAM</td><td>" +
+            (x.ram ? x.ram + " GB" : "-") +
+            "</td></tr>" +
+            "<tr><td>การ์ดจอ</td><td>" +
+            esc(x.gpu || "-") +
+            "</td></tr><tr><td>สภาพเครื่อง</td><td>" +
+            x.cond +
+            "%</td></tr><tr><td>รายละเอียด</td><td>" +
+            esc(x.spec || "-") +
+            "</td></tr></table>" +
+            '<p><button class="btn" id="add">ใส่ตะกร้า</button> <a class="btn ghost" href="index.html">ไปที่ตะกร้า</a></p><p id="ok" class="timing"></p></div>';
+          $("add").onclick = function () {
+            var c = {};
+            try {
+              c = JSON.parse(localStorage.getItem("cart") || "{}");
+            } catch (e) {}
+            c[x.id] = (c[x.id] || 0) + 1;
+            localStorage.setItem("cart", JSON.stringify(c));
+            $("ok").textContent = "เพิ่มลงตะกร้าแล้ว";
+          };
+        })
+        .catch(function (e) {
+          $("box").textContent = e.message;
+        });
+    </script>
+  </body>
+</html>

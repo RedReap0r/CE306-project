@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>คำสั่งซื้อของฉัน – ComTrade</title>
+    <link rel="icon" href="images/favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <a class="logo" href="index.html"
+        ><img src="images/logo.png" alt="ComTrade"
+      /></a>
+      <nav></nav>
+      <a class="btn ghost" href="index.html">กลับหน้าร้าน</a>
+    </header>
+    <main>
+      <h2>คำสั่งซื้อของฉัน</h2>
+      <p class="sub" id="msg"></p>
+      <div style="overflow-x: auto"><table id="t"></table></div>
+    </main>
+    <script>
+      var $ = function (i) {
+        return document.getElementById(i);
+      };
+      function esc(s) {
+        return String(s).replace(/[&<>"]/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+        });
+      }
+      fetch("/api/orders/me", {
+        headers: {
+          Authorization: "Bearer " + (localStorage.getItem("token") || ""),
+        },
+      })
+        .then(function (r) {
+          return r.json().then(function (d) {
+            if (!r.ok) throw new Error(d.error);
+            return d;
+          });
+        })
+        .then(function (o) {
+          if (!o.length) {
+            $("msg").textContent = "ยังไม่มีคำสั่งซื้อ";
+            return;
+          }
+          $("t").innerHTML =
+            "<tr><th>เลขที่</th><th>วันที่</th><th>รายการ</th><th>ยอดรวม</th><th>สถานะ</th></tr>" +
+            o
+              .map(function (x) {
+                return (
+                  "<tr><td>#" +
+                  x.id +
+                  "</td><td>" +
+                  new Date(x.created_at.replace(" ", "T") + "Z").toLocaleString(
+                    "th-TH",
+                  ) +
+                  "</td><td>" +
+                  esc(x.items || "-") +
+                  "</td><td>฿" +
+                  x.total.toLocaleString("th-TH") +
+                  "</td><td>" +
+                  esc(x.status) +
+                  "</td></tr>"
+                );
+              })
+              .join("");
+        })
+        .catch(function (e) {
+          $("msg").innerHTML =
+            esc(e.message) + ' <a href="login.html">เข้าสู่ระบบ</a>';
+        });
+    </script>
+  </body>
+</html>

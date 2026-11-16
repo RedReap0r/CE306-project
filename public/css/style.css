@@ -6,7 +6,6 @@
   --brand: #1e40af;
   --success: #15803d;
 }
-
 * {
   box-sizing: border-box;
 }
@@ -105,15 +104,13 @@ aside label {
 .stats span {
   display: block;
 }
-.hero-art,
-.thumb {
-  display: grid;
-  place-items: center;
-  background: #f3f4f6;
-  color: var(--muted);
-}
-.hero-art {
+img.hero-art {
+  display: block;
+  width: 100%;
+  height: 100%;
   min-height: 220px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 h2 {
   margin: 16px 0 4px;
@@ -128,14 +125,11 @@ h2 {
 }
 .layout > aside,
 .card,
-.roadmap,
 .cart {
   padding: 16px;
   background: #fff;
   border: 1px solid var(--line);
 }
-.layout > aside,
-aside label,
 .card .in,
 .items,
 .sum {
@@ -168,7 +162,11 @@ aside label,
   padding: 0;
 }
 .thumb {
+  display: grid;
+  place-items: center;
   min-height: 100px;
+  background: #f3f4f6;
+  color: var(--muted);
 }
 .card .in {
   flex: 1;
@@ -182,7 +180,7 @@ aside label,
   font-size: 14px;
 }
 .empty {
-  grid-column: 1 / -1;
+  grid-column: 1/-1;
   padding: 24px;
   color: var(--muted);
   text-align: center;
@@ -227,22 +225,12 @@ aside label,
     padding: 12px 16px;
   }
 }
-img.hero-art {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 220px;
-  object-fit: contain;
-  border-radius: 8px;
-}
-.thumb img {
-  display: block;
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
 [hidden] {
   display: none !important;
+}
+a.btn {
+  display: inline-block;
+  text-decoration: none;
 }
 .auth-box {
   display: flex;
@@ -252,34 +240,6 @@ img.hero-art {
 #userName {
   color: var(--muted);
   font-size: 14px;
-}
-dialog {
-  min-width: 300px;
-  padding: 20px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-}
-dialog h3 {
-  margin-top: 0;
-}
-.auth-form {
-  display: grid;
-  gap: 10px;
-}
-.auth-form input {
-  padding: 8px;
-  border: 1px solid var(--line);
-}
-.auth-err {
-  min-height: 1.2em;
-  margin: 0;
-  color: #dc2626;
-  font-size: 14px;
-}
-@media (max-width: 760px) {
-  #userName {
-    display: none;
-  }
 }
 .logo img {
   display: block;
@@ -298,4 +258,132 @@ dialog h3 {
 .layout > aside select {
   display: block;
   margin-top: 6px;
+}
+.thumb {
+  overflow: hidden;
+}
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+.card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+.catrow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.catbtn {
+  padding: 12px 20px;
+  border: 1px solid var(--line);
+  background: #fff;
+  cursor: pointer;
+}
+.catbtn:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.how {
+  margin-top: 40px;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.steps > div {
+  padding: 16px;
+  border: 1px solid var(--line);
+}
+.steps b {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+}
+.steps h3 {
+  margin: 8px 0 4px;
+}
+.steps p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+footer {
+  padding: 24px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  border-top: 1px solid var(--line);
+}
+.pd {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.pd-img {
+  display: grid;
+  place-items: center;
+  min-height: 280px;
+  background: #f3f4f6;
+  color: var(--muted);
+}
+.pd-img img {
+  width: 100%;
+  max-height: 480px;
+  object-fit: contain;
+}
+.pd h1 {
+  margin: 8px 0;
+}
+.pd td:first-child {
+  color: var(--muted);
+  width: 120px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th,
+td {
+  padding: 8px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  font-size: 14px;
+}
+.adminform {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  margin: 12px 0;
+}
+.adminform input,
+select {
+  border: 1px solid var(--line);
+  background: #fff;
+  padding: 8px;
+}
+@media (max-width: 760px) {
+  .pd {
+    grid-template-columns: 1fr;
+  }
+  #userName {
+    display: none;
+  }
+}
+.adminform label {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.adminform .btn {
+  align-self: end;
 }
