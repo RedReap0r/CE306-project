@@ -213,18 +213,6 @@ aside label,
   padding-bottom: 8px;
   border-bottom: 1px solid var(--line);
 }
-.roadmap {
-  margin-top: 32px;
-}
-.roadmap ul {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 8px 24px;
-  padding-left: 20px;
-}
-.roadmap li.todo {
-  color: var(--muted);
-}
 @media (max-width: 760px) {
   .hero,
   .layout {
@@ -292,4 +280,22 @@ dialog h3 {
   #userName {
     display: none;
   }
+}
+.logo img {
+  display: block;
+  height: 32px;
+  width: auto;
+}
+.layout > aside {
+  align-self: start;
+  align-content: start;
+  gap: 16px;
+}
+.layout > aside label {
+  display: block;
+}
+.layout > aside input,
+.layout > aside select {
+  display: block;
+  margin-top: 6px;
 }

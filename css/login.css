@@ -27,19 +27,26 @@ body {
   padding: 56px 64px;
   background: #dff1fb;
 }
-.login-art h1 {
-  margin: 0 0 4px;
-  font-size: 32px;
+.art-logo {
+  display: block;
+  height: 44px;
+  width: auto;
+  margin-bottom: 8px;
 }
 .login-art p {
   margin: 0;
   color: var(--muted);
   font-size: 14px;
 }
-.login-art svg {
+.art-hero {
+  display: block;
   width: 100%;
-  max-width: 480px;
-  margin: 24px auto;
+  height: auto;
+  max-height: 60vh;
+  margin: 24px 0;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15);
 }
 .art-note {
   text-align: right;
@@ -61,33 +68,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   margin-bottom: 28px;
-  color: var(--ink);
-  font-size: 20px;
-  font-weight: 700;
   text-decoration: none;
 }
-.brand-icon {
-  position: relative;
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: #0ea5e9;
-}
-.brand-icon::after {
-  content: "";
-  position: absolute;
-  inset: 10px;
-  border: 2px solid #fff;
-  border-radius: 3px;
+.brand img {
+  display: block;
+  height: 40px;
+  width: auto;
 }
 h2 {
   margin: 0 0 4px;
   font-size: 26px;
 }
 .lead {
-  margin: 0;
+  margin-top: 0;
+  margin-bottom: 0;
   color: var(--muted);
   font-size: 14px;
 }
@@ -193,4 +188,8 @@ a {
   .login-panel {
     padding: 32px 20px;
   }
+}
+h2,
+.lead {
+  text-align: center;
 }

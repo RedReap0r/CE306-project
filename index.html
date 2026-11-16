@@ -7,6 +7,7 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     />
     <title>ComTrade – คอมเทรด</title>
+    <link rel="icon" href="images/favicon.png" />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;700&display=swap"
       rel="stylesheet"
@@ -15,7 +16,9 @@
   </head>
   <body>
     <header>
-      <span class="logo">ComTrade</span>
+      <a class="logo" href="index.html"
+        ><img src="images/logo.png" alt="ComTrade"
+      /></a>
       <nav>
         <a href="#">หน้าแรก</a><a href="#shop">สินค้า</a><a href="#">ฝากขาย</a
         ><a href="#">ติดต่อ</a>
@@ -119,20 +122,6 @@
         </div>
       </div>
 
-      <section class="roadmap">
-        <h2 style="margin-top: 0">ความคืบหน้าโครงงาน</h2>
-        <ul>
-          <li>ออกแบบ UI ใน Figma</li>
-          <li>หน้าแรกและรายการสินค้า</li>
-          <li>ตัวกรองแบบ Dynamic (Fetch + Partial Render)</li>
-          <li>ตะกร้าและสรุปราคาแบบ Real-time</li>
-          <li class="todo">Backend: Node.js + REST API</li>
-          <li class="todo">ฐานข้อมูล PostgreSQL / MySQL</li>
-          <li class="todo">สมัครสมาชิก/เข้าสู่ระบบ (JWT)</li>
-          <li class="todo">หน้า Admin จัดการสินค้า (CRUD)</li>
-          <li class="todo">สั่งซื้อและประวัติคำสั่งซื้อ</li>
-        </ul>
-      </section>
     </main>
 
     <aside class="cart" id="cart" aria-label="ตะกร้าสินค้า">
