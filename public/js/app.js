@@ -109,13 +109,17 @@ function load() {
     load();
   });
 });
+var allLoaded = false;
 function drawCart() {
   var sub = 0,
     n = 0;
-  Object.keys(cart).forEach(function (id) {
-    if (!ALL[id]) delete cart[id];
-  });
-  var ids = Object.keys(cart);
+  // ลบสินค้าออกจากตะกร้าเฉพาะตอนที่โหลด ALL เสร็จแล้วเท่านั้น
+  if (allLoaded) {
+    Object.keys(cart).forEach(function (id) {
+      if (!ALL[id]) delete cart[id];
+    });
+  }
+  var ids = Object.keys(cart).filter(function(id){ return !!ALL[id]; });
   $("items").innerHTML = ids.length
     ? ids
         .map(function (id) {
@@ -224,9 +228,11 @@ api("GET", "/api/products")
     l.forEach(function (x) {
       ALL[x.id] = x;
     });
+    allLoaded = true;  // โหลดสินค้าครบแล้ว — ตอนนี้ drawCart() ถึงจะลบสินค้าที่ไม่มีใน ALL ได้
     drawCart();
   })
   .catch(function () {});
 authUI();
+// หมายเหตุ: drawCart() ตัวแรกนี้จะแสดงตะกร้าจาก localStorage แต่ไม่ลบสินค้า (เพราะ allLoaded = false)
 drawCart();
 load();
