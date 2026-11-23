@@ -18,9 +18,12 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const connectionString =
-  process.env.DATABASE_URL ||
-  "postgresql://postgres:uXpGsiAhzqdspvljX6tnDbG5HHbpQtzUCn3U7IoNGsW03CXCvV0u2s5wiiOL0Pez@cude-db.m3ow.xyz:5129/postgres";
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error(
+    "DATABASE_URL is required. Add your PostgreSQL connection string to .env.",
+  );
+}
 
 const pool = new Pool({
   connectionString,
